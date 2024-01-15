@@ -38,12 +38,15 @@ await exec("/tmp", ["node"]);
 
 ## Error and exit
 
-Will not throw an exception, you can determine if the execution process fails by checking if the exit code is 0.
+Determine whether the execution process fails by checking if the exit code is 0. If the status code is not 0, it is considered a failure and an exception will be thrown.
 
 ```ts
 import { exec } from "bun-exec";
 
-const { proc, exitCode, signalCode, error } = await exec("/tmp", ["bun", "run", "index.ts"]);
-
-console.log(exitCode === 0);
+try {
+  const { exitCode } = await exec("/tmp", ["bun", "run", "index.ts"]);
+  console.log(exitCode);
+} catch ({ exitCode }) {
+  console.error(exitCode);
+}
 ```

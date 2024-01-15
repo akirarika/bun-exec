@@ -8,7 +8,8 @@ export const exec = (cwd: string, command: Array<string>, options: Partial<Spawn
     if (!("env" in options)) options.env = { ...env };
 
     options.onExit = (proc, exitCode, signalCode, error) => {
-      resolve({ proc, exitCode, signalCode, error });
+      if (exitCode !== 0) reject({ proc, exitCode, signalCode, error });
+      else resolve({ proc, exitCode, signalCode, error });
     };
 
     try {
